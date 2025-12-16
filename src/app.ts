@@ -4,6 +4,11 @@
  * Using JSX-style h() syntax
  */
 
+// Access global TinyReact from window
+declare const TinyReact: typeof import('./tiny-react').TinyReact;
+declare const h: typeof import('./tiny-react').h;
+declare const Fragment: typeof import('./tiny-react').Fragment;
+
 // Type definitions
 interface RenderLogMessage {
   timestamp: string;
@@ -46,10 +51,10 @@ const renderLog = {
 
 // Expensive computation example
 function ExpensiveCalculator(): any {
-  const [count, setCount] = (TinyReact as any).useState(0);
-  const [factor, setFactor] = (TinyReact as any).useState(1);
+  const [count, setCount] = TinyReact.useState(0);
+  const [factor, setFactor] = TinyReact.useState(1);
 
-  const expensiveResult = (TinyReact as any).useMemo(() => {
+  const expensiveResult = TinyReact.useMemo(() => {
     renderLog.log("ExpensiveCalculator.useMemo", "computing expensive calculation...");
     let result = 0;
     for (let i = 0; i < 100000000; i++) {
@@ -81,7 +86,7 @@ function ExpensiveCalculator(): any {
 }
 
 // Memoized button
-const MemoButton = (TinyReact as any).memo(
+const MemoButton = TinyReact.memo(
   ({ label, onClick, color }: { label: string; onClick: () => void; color: string }): any => {
     renderLog.log(`MemoButton[${label}]`, "✨ rendered");
     return h(
@@ -97,10 +102,10 @@ const MemoButton = (TinyReact as any).memo(
 
 // Callback optimization demo
 function CallbackOptimization(): any {
-  const [clicks, setClicks] = (TinyReact as any).useState(0);
-  const [other, setOther] = (TinyReact as any).useState(0);
+  const [clicks, setClicks] = TinyReact.useState(0);
+  const [other, setOther] = TinyReact.useState(0);
 
-  const handleIncrement = (TinyReact as any).useCallback(
+  const handleIncrement = TinyReact.useCallback(
     () => {
       renderLog.log("CallbackOptimization.handleIncrement", "callback executed");
       setClicks(clicks + 1);
@@ -108,7 +113,7 @@ function CallbackOptimization(): any {
     [clicks]
   );
 
-  const handleOther = (TinyReact as any).useCallback(
+  const handleOther = TinyReact.useCallback(
     () => {
       renderLog.log("CallbackOptimization.handleOther", "callback executed");
       setOther(other + 1);
@@ -133,10 +138,10 @@ function CallbackOptimization(): any {
 
 // State equality optimization
 function StateOptimization(): any {
-  const [user, setUser] = (TinyReact as any).useState({ name: "Alice", age: 25 }) as [User, (user: User) => void];
-  const [updates, setUpdates] = (TinyReact as any).useState(0);
+  const [user, setUser] = TinyReact.useState<User>({ name: "Alice", age: 25 });
+  const [updates, setUpdates] = TinyReact.useState(0);
 
-  (TinyReact as any).useEffect(() => {
+  TinyReact.useEffect(() => {
     renderLog.log("StateOptimization.useEffect", `name changed: ${user.name}`);
   }, [user.name]);
 
@@ -175,7 +180,7 @@ function StateOptimization(): any {
 }
 
 // List item with memo
-const ListItem = (TinyReact as any).memo(
+const ListItem = TinyReact.memo(
   ({ item, onRemove }: { item: Item; onRemove: (id: number) => void }): any => {
     renderLog.log(`ListItem[${item.name}]`, "✨ rendered");
     return h(
@@ -201,13 +206,13 @@ const ListItem = (TinyReact as any).memo(
 
 // Optimized list
 function OptimizedList(): any {
-  const [items, setItems] = (TinyReact as any).useState([
+  const [items, setItems] = TinyReact.useState<Item[]>([
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },
     { id: 3, name: "Item 3" },
-  ]) as [Item[], (items: Item[]) => void];
+  ]);
 
-  const handleRemove = (TinyReact as any).useCallback(
+  const handleRemove = TinyReact.useCallback(
     (id: number) => {
       renderLog.log("OptimizedList.handleRemove", `removing item ${id}`);
       setItems(items.filter((item: Item) => item.id !== id));
@@ -230,7 +235,7 @@ function OptimizedList(): any {
 
 // Console display
 function ConsoleDisplay(): any {
-  const [logs, setLogs] = (TinyReact as any).useState([]) as [string[], (logs: string[]) => void];
+  const [logs, setLogs] = TinyReact.useState<string[]>([]);
 
   const refreshLogs = () => {
     setLogs([...renderLog.getLast(15)]);
@@ -269,7 +274,7 @@ function ConsoleDisplay(): any {
 
 // Main App component
 function App(): any {
-  const [showPerf, setShowPerf] = (TinyReact as any).useState(true);
+  const [showPerf, setShowPerf] = TinyReact.useState(true);
 
   return h(
     "div",
@@ -300,5 +305,5 @@ function App(): any {
 }
 
 // Render the app
-const root = (TinyReact as any).createRoot(document.getElementById("root")!);
+const root = TinyReact.createRoot(document.getElementById("root")!);
 root.render(h(App, {}));
