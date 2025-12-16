@@ -4,19 +4,19 @@
  */
 
 // Type definitions
-export type Component<P = any> = (props: P) => VNode | null;
-export type SetStateAction<S> = S | ((prev: S) => S);
-export type EffectCallback = () => (() => void) | void;
-export type DependencyList = ReadonlyArray<any> | undefined;
+type Component<P = any> = (props: P) => VNode | null;
+type SetStateAction<S> = S | ((prev: S) => S);
+type EffectCallback = () => (() => void) | void;
+type DependencyList = ReadonlyArray<any> | undefined;
 
-export interface VNode {
+interface VNode {
   type: string | Component;
   key?: string | number;
   props: Record<string, any>;
   children: any[];
 }
 
-export interface Root {
+interface Root {
   render(element: VNode | null): void;
 }
 
@@ -320,6 +320,3 @@ const Fragment = ({ children }: { children: any[] }) => children;
 (window as any).TinyReact = TinyReact;
 (window as any).h = h;
 (window as any).Fragment = Fragment;
-
-// Re-export for proper TypeScript typing
-export { TinyReact, h, Fragment };

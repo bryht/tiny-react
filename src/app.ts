@@ -4,11 +4,6 @@
  * Using JSX-style h() syntax
  */
 
-// Access global TinyReact from window
-declare const TinyReact: typeof import('./tiny-react').TinyReact;
-declare const h: typeof import('./tiny-react').h;
-declare const Fragment: typeof import('./tiny-react').Fragment;
-
 // Type definitions
 interface RenderLogMessage {
   timestamp: string;
@@ -138,7 +133,7 @@ function CallbackOptimization(): any {
 
 // State equality optimization
 function StateOptimization(): any {
-  const [user, setUser] = TinyReact.useState<User>({ name: "Alice", age: 25 });
+  const [user, setUser] = TinyReact.useState({ name: "Alice", age: 25 });
   const [updates, setUpdates] = TinyReact.useState(0);
 
   TinyReact.useEffect(() => {
@@ -206,7 +201,7 @@ const ListItem = TinyReact.memo(
 
 // Optimized list
 function OptimizedList(): any {
-  const [items, setItems] = TinyReact.useState<Item[]>([
+  const [items, setItems] = TinyReact.useState([
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },
     { id: 3, name: "Item 3" },
@@ -235,7 +230,7 @@ function OptimizedList(): any {
 
 // Console display
 function ConsoleDisplay(): any {
-  const [logs, setLogs] = TinyReact.useState<string[]>([]);
+  const [logs, setLogs] = TinyReact.useState([] as string[]);
 
   const refreshLogs = () => {
     setLogs([...renderLog.getLast(15)]);
